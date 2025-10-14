@@ -41,9 +41,7 @@ export interface Task {
           return;
         }
         dedupMap.set(key, now);
-      const urlString = typeof window !== 'undefined'
-        ? (localStorage.getItem('webhookUrl') || process.env.NEXT_PUBLIC_WEBHOOK_URL)
-        : process.env.NEXT_PUBLIC_WEBHOOK_URL;
+      const urlString = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
 
       if (!urlString) return;
 
