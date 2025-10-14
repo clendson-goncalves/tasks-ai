@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2, NotebookPen } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { Task } from "../utils/utils";
 
@@ -106,19 +107,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             }`}
             aria-label="notes"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h8M8 16h5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <NotebookPen
+              size={17}
+              className="text-gray-500 hover:text-teal-400"
+            />
           </button>
 
           {/* Delete button */}
@@ -138,19 +130,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                 Delete
               </div>
             ) : (
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
+              <Trash2 size={17} className="text-gray-500 hover:text-teal-400" />
             )}
           </button>
         </div>
