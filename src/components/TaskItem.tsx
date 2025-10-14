@@ -56,7 +56,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({
       <div className="w-full">
         <div className="w-full flex gap-3 items-start">
           <button
-            onClick={() => onToggle(task.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle(task.id);
+            }}
             aria-label="toggle task"
             className={`w-4 h-4 rounded-full border transition-all ${
               task.completed
@@ -98,7 +101,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           </div>
 
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsNotesOpen(true);
               setEditNotes(task.notes ?? "");
             }}
@@ -115,7 +119,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
           {/* Delete button */}
           <button
-            onClick={handleDeleteClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteClick();
+            }}
             className={`text-gray-500 ${isConfirming ? "text-red-500" : ""} ${
               isNotesOpen ? "" : "hover:text-teal-500"
             } transition-all`}

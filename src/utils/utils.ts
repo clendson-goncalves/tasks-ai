@@ -24,7 +24,23 @@ export interface Task {
 
   // Send a webhook event if a webhook URL is configured.
   export async function sendWebhookEvent(event: string, task: Task) {
-    try {
+      try {
+        // Lightweight in-memory dedupe: avoid sending the same event for the same task
+        // multiple times within a short window (1s). This helps when UI or runtime
+        // accidentally triggers duplicate updates.
+        const now = Date.now();
+        const key = `${event}:${task.id}`;
+        if (!(globalThis as any).__webhookDedup) {
+          (globalThis as any).__webhookDedup = new Map<string, number>();
+        }
+        const dedupMap: Map<string, number> = (globalThis as any).__webhookDedup;
+        const last = dedupMap.get(key) ?? 0;
+        if (now - last < 1000) {
+          // skip duplicate event
+          console.debug('Skipping duplicate webhook event', key);
+          return;
+        }
+        dedupMap.set(key, now);
       const urlString = typeof window !== 'undefined'
         ? (localStorage.getItem('webhookUrl') || process.env.NEXT_PUBLIC_WEBHOOK_URL)
         : process.env.NEXT_PUBLIC_WEBHOOK_URL;
