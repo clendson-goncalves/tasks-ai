@@ -48,7 +48,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   return (
     <li
       ref={itemRef}
-      className="flex items-center gap-3 py-2 px-2 group rounded-lg transition-colors hover:bg-gray-700/70 relative"
+      className={`flex items-center gap-3 py-2 px-2 group rounded-lg transition-colors ${
+        isNotesOpen ? "" : "hover:bg-gray-700/70"
+      } relative`}
     >
       <div className="w-full">
         <div className="w-full flex gap-3 items-start">
@@ -58,7 +60,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             className={`w-4 h-4 rounded-full border transition-all ${
               task.completed
                 ? "border-green-500 bg-green-500"
-                : "border-gray-600 hover:border-sky-400"
+                : `border-gray-600 ${isNotesOpen ? "" : "hover:border-sky-400"}`
             }`}
           >
             {task.completed && (
@@ -99,7 +101,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               setIsNotesOpen(true);
               setEditNotes(task.notes ?? "");
             }}
-            className="text-gray-500 hover:text-teal-500 transition-all mr-2"
+            className={`text-gray-500 transition-all mr-2 ${
+              isNotesOpen ? "" : "hover:text-teal-500"
+            }`}
             aria-label="notes"
           >
             <svg
@@ -120,9 +124,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           {/* Delete button */}
           <button
             onClick={handleDeleteClick}
-            className={`text-gray-500 hover:text-teal-500 transition-all ${
-              isConfirming ? "text-red-500" : ""
-            }`}
+            className={`text-gray-500 ${isConfirming ? "text-red-500" : ""} ${
+              isNotesOpen ? "" : "hover:text-teal-500"
+            } transition-all`}
             aria-label="delete"
           >
             {isConfirming ? (
