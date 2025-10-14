@@ -4,11 +4,10 @@ import { TaskManager } from "@/components/TaskManager";
 function App() {
   const today = new Date();
   const date = today.getDate();
-  const month = today.toLocaleString('default', { month: 'long' });
+  const month = today.toLocaleString("default", { month: "long" });
 
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Header with gradient background */}
       <div className="bg-gradient-to-br from-teal-600 via-emerald-600 to-green-500 p-8 pb-16 relative">
         <div className="max-w-md mx-auto">
           <div className="px-6">
@@ -17,7 +16,6 @@ function App() {
         </div>
       </div>
 
-      {/* Main content with negative margin to overlap header */}
       <div className="max-w-md mx-auto -mt-8 relative z-10 px-4">
         <div className="bg-gray-900 rounded-xl shadow-xl">
           <TaskManager date={date} month={month} />

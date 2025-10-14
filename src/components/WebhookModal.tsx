@@ -11,20 +11,35 @@ const WebhookModal: React.FC<WebhookModalProps> = ({ open, onClose }) => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    if (open) {
-      const envUrl = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
-      setUrl(envUrl);
-    }
+    if (!open) return;
+    (async () => {
+      try {
+        const mod = await import("../utils/supabase");
+        if (mod && typeof mod.getSetting === "function") {
+          const stored = await mod.getSetting("webhookUrl");
+          setUrl(stored || "");
+        } else {
+          setUrl("");
+        }
+      } catch (err) {
+        console.debug("Failed to load webhook URL from DB", err);
+        setUrl("");
+      }
+    })();
   }, [open]);
 
   if (!open) return null;
 
-  const handleCopy = async () => {
+  const handleSave = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      const mod = await import("../utils/supabase");
+      if (mod && typeof mod.setSetting === "function") {
+        await mod.setSetting("webhookUrl", url);
+      }
     } catch (err) {
-      console.error("Could not copy webhook URL", err);
+      console.debug("Failed to save webhook URL to DB", err);
     }
+    onClose();
   };
 
   return (
@@ -36,11 +51,13 @@ const WebhookModal: React.FC<WebhookModalProps> = ({ open, onClose }) => {
           <h3 className="text-lg mb-3">Webhook configuration</h3>
 
           <label className="text-sm text-gray-500">Webhook URL</label>
-          <div className="w-full mt-2 p-2 rounded bg-transparent border border-gray-700 text-sm text-gray-200">
-            <div className="break-words">
-              {url || <span className="text-gray-500">Not configured</span>}
-            </div>
-          </div>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="w-full mt-2 p-2 rounded bg-transparent border border-gray-700 text-sm placeholder-gray-500 outline-none"
+            placeholder="https://example.com/webhook"
+          />
 
           <div className="mt-4 flex justify-end gap-3">
             <button
@@ -50,10 +67,10 @@ const WebhookModal: React.FC<WebhookModalProps> = ({ open, onClose }) => {
               Close
             </button>
             <button
-              onClick={handleCopy}
+              onClick={handleSave}
               className="px-3 py-2 rounded text-sm delete-button bg-teal-500 hover:bg-teal-700"
             >
-              Copy
+              Save
             </button>
           </div>
         </div>

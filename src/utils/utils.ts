@@ -1,3 +1,5 @@
+import { getSetting } from "../utils/supabase";
+
 export interface Task {
     id: number;
     title: string;
@@ -5,7 +7,6 @@ export interface Task {
     notes?: string;
   }
   
-  // filter tasks
   export const filterTasksByStatus = (tasks: Task[], filter: string) => {
     switch (filter) {
       case 'completed':
@@ -17,17 +18,12 @@ export interface Task {
     }
   };
   
-  // Create unique ID timestamp based
   export const generateUniqueId = () => {
     return Date.now() + Math.floor(Math.random() * 1000);
   };
 
-  // Send a webhook event if a webhook URL is configured.
   export async function sendWebhookEvent(event: string, task: Task) {
       try {
-        // Lightweight in-memory dedupe: avoid sending the same event for the same task
-        // multiple times within a short window (1s). This helps when UI or runtime
-        // accidentally triggers duplicate updates.
         const now = Date.now();
         const key = `${event}:${task.id}`;
         if (!(globalThis as any).__webhookDedup) {
@@ -36,14 +32,12 @@ export interface Task {
         const dedupMap: Map<string, number> = (globalThis as any).__webhookDedup;
         const last = dedupMap.get(key) ?? 0;
         if (now - last < 1000) {
-          // skip duplicate event
           console.debug('Skipping duplicate webhook event', key);
           return;
         }
         dedupMap.set(key, now);
-      const urlString = process.env.NEXT_PUBLIC_WEBHOOK_URL || "";
-
-      if (!urlString) return;
+  const urlString = await getSetting("webhookUrl");
+  if (!urlString) return;
 
       let parsed: URL;
       try {
@@ -52,13 +46,11 @@ export interface Task {
         console.warn('Webhook URL is invalid, skipping webhook:', urlString);
         return;
       }
-
       if (!['http:', 'https:'].includes(parsed.protocol)) {
         console.warn('Webhook URL must be http(s), skipping webhook:', urlString);
         return;
       }
 
-      // small timeout for webhook so it doesn't hang the app
       const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
       const timeout = controller ? setTimeout(() => controller.abort(), 5000) : undefined;
 
@@ -70,8 +62,6 @@ export interface Task {
           signal: controller ? controller.signal : undefined,
         });
       } catch (err) {
-        // network errors are expected occasionally; log at debug level and swallow
-        // Avoid noisy logs for common 'Failed to fetch'
         if (err && (err as any).name === 'AbortError') {
           console.debug('Webhook request aborted (timeout) for', urlString);
         } else {
@@ -81,7 +71,6 @@ export interface Task {
         if (timeout) clearTimeout(timeout);
       }
     } catch (err) {
-      // Any unexpected error should not break the app
       console.debug('Webhook helper unexpected error', err);
     }
   }

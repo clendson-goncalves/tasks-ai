@@ -47,7 +47,6 @@ body {
 
 .bg-red-500 {
   background-color: #f56565;
-  /* Tailwind CSS red-500 color */
 }
 
 .text-white {
@@ -70,22 +69,16 @@ body {
 
 .w-24 {
   width: 4rem;
-  /* Reduced width */
 }
 
 .p-1 {
   padding: 0.25rem;
-  /* Reduced padding */
 }
 
 .delete-button {
   height: 1.5rem;
-  /* Set a smaller fixed height */
   display: flex;
   align-items: center;
-  /* Center the text vertically */
   justify-content: center;
-  /* Center the text horizontally */
   font-size: 0.75rem;
-  /* Decrease font size */
 }

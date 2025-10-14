@@ -31,7 +31,6 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
   const [isWebhookOpen, setIsWebhookOpen] = useState(false);
 
-  // fetch tasks from Supabase on mount
   useEffect(() => {
     let mounted = true;
     async function load() {
@@ -58,7 +57,6 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   }, []);
 
   const handleSaveNotes = (id: number, notes: string) => {
-    // update in Supabase then update local state
     updateTask(id, { notes })
       .catch((e) => console.debug("Supabase update notes failed", e))
       .finally(() => {
@@ -76,7 +74,6 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
       title,
       completed: false,
     };
-    // insert into Supabase then refresh local state
     insertTask(newTask)
       .catch((e) => console.debug("Supabase insert failed", e))
       .finally(() => {
@@ -86,7 +83,6 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   };
 
   const handleDeleteTask = (id: number) => {
-    // delete from Supabase then update local state
     supabaseDelete(id)
       .catch((e) => console.debug("Supabase delete failed", e))
       .finally(() => {

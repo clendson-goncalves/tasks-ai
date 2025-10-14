@@ -26,7 +26,7 @@ function createSupabaseClient(): SupabaseClient | null {
 
 export function getSupabase(): SupabaseClient | null {
   if (client) return client;
-  if (typeof window === "undefined") return null; // avoid server instantiation
+  if (typeof window === "undefined") return null; 
   client = createSupabaseClient();
   return client;
 }
@@ -41,6 +41,33 @@ export async function fetchTasks(): Promise<SupabaseTask[]> {
   } catch (err) {
     console.debug("Supabase fetch tasks error", err);
     return [];
+  }
+}
+
+export async function getSetting(key: string): Promise<string | null> {
+  const supa = getSupabase();
+  if (!supa) return null;
+  try {
+    const { data, error } = await supa.from("settings").select("value").eq("key", key).single();
+    if (error) {
+      if ((error as any).code === "PGRST116") return null; 
+      throw error;
+    }
+    return data?.value ?? null;
+  } catch (err) {
+    console.debug("Supabase getSetting error", err);
+    return null;
+  }
+}
+
+export async function setSetting(key: string, value: string) {
+  const supa = getSupabase();
+  if (!supa) return;
+  try {
+    const { error } = await supa.from("settings").upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+    if (error) throw error;
+  } catch (err) {
+    console.debug("Supabase setSetting error", err);
   }
 }
 

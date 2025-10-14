@@ -38,10 +38,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   };
 
   useEffect(() => {
-    // Add event listener for clicks outside the component
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -117,7 +115,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             />
           </button>
 
-          {/* Delete button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
