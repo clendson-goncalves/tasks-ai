@@ -17,6 +17,10 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
 
+  const handleSaveNotes = (id: number, notes: string) => {
+    setTasks(prev => prev.map(t => t.id === id ? { ...t, notes } : t));
+  };
+
   const handleAddTask = (title: string) => {
     const newTask: Task = {
       id: generateUniqueId(),
@@ -50,13 +54,14 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
       <TaskFilters currentFilter={filter} onFilterChange={setFilter} />
 
       {filteredTasks.length > 0 ? (
-        <ul className="space-y-4">
+        <ul className="">
           {filteredTasks.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
               onDelete={handleDeleteTask}
               onToggle={handleToggleTask}
+              onSaveNotes={handleSaveNotes}
             />
           ))}
         </ul>

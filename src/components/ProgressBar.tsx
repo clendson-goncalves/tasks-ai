@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-export const ProgressBar = ({ total, completed }) => {
+interface ProgressBarProps {
+  total: number;
+  completed: number;
+}
+
+export const ProgressBar: React.FC<ProgressBarProps> = ({ total, completed }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 

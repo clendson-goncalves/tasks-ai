@@ -2,15 +2,18 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Task } from "../utils/utils";
+import TaskNotesModal from './TaskNotesModal';
 
 interface TaskItemProps {
   task: Task;
   onDelete: (id: number) => void;
   onToggle: (id: number) => void;
+  onSaveNotes?: (id: number, notes: string) => void;
 }
 
-export const TaskItem: React.FC<TaskItemProps> = ({ task, onDelete, onToggle }) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ task, onDelete, onToggle, onSaveNotes }) => {
   const [isConfirming, setIsConfirming] = useState(false);
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleDeleteClick = () => {
@@ -65,22 +68,32 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onDelete, onToggle }) 
         )}
       </button>
 
-      {/* Task title */}
-      <span
-        onClick={() => onToggle(task.id)}
-        className={`flex-grow cursor-pointer transition-all ${
-          task.completed 
-            ? "text-gray-500 line-through" 
-            : "text-gray-200"
-        }`}
+      {/* Title and notes */}
+      <div className="flex-grow" onClick={() => onToggle(task.id)}>
+        <div className={`cursor-pointer transition-all ${
+          task.completed ? "text-gray-500 line-through" : "text-gray-200"
+        }`}>{task.title}</div>
+
+        {task.notes && task.notes.trim() !== '' && (
+          <p className="mt-1 text-sm text-gray-400 whitespace-pre-wrap">{task.notes}</p>
+        )}
+      </div>
+
+      {/* Notes button */}
+      <button
+        onClick={() => setIsNotesOpen(true)}
+        className="text-gray-500 hover:text-teal-500 transition-all mr-2"
+        aria-label="notes"
       >
-        {task.title}
-      </span>
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h8M8 16h5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
 
       {/* Delete button */}
       <button
         onClick={handleDeleteClick}
-        className={`text-gray-500 hover:text-sky-500 transition-all ${isConfirming ? 'text-red-500' : ''}`}
+        className={`text-gray-500 hover:text-teal-500 transition-all ${isConfirming ? 'text-red-500' : ''}`}
         aria-label="delete"
       >
         {isConfirming ? (
@@ -103,6 +116,18 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onDelete, onToggle }) 
           </svg>
         )}
       </button>
+
+      <TaskNotesModal
+        open={isNotesOpen}
+        task={task}
+        onClose={() => setIsNotesOpen(false)}
+        onSave={(id, notes) => {
+          if (typeof window === 'undefined') return;
+          if (typeof onSaveNotes === 'function') {
+            onSaveNotes(id, notes);
+          }
+        }}
+      />
     </li>
   );
 };
