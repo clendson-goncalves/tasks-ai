@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "migrate": "node ./scripts/migrate.js",
     "start": "next start"
   },
   "dependencies": {
     "lucide-react": "^0.545.0",
+    "@supabase/supabase-js": "^2.27.0",
     "next": "15.5.5",
     "react": "19.1.0",
     "react-dom": "19.1.0"
@@ -19,6 +21,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "pg": "^8.11.0",
+    "dotenv": "^16.3.1"
   }
 }
