@@ -24,3 +24,68 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.absolute {
+  position: absolute;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bg-red-500 {
+  background-color: #f56565;
+  /* Tailwind CSS red-500 color */
+}
+
+.text-white {
+  color: white;
+}
+
+.transition-transform {
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.-translate-x-full {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.translate-x-0 {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.w-24 {
+  width: 4rem;
+  /* Reduced width */
+}
+
+.p-1 {
+  padding: 0.25rem;
+  /* Reduced padding */
+}
+
+.delete-button {
+  height: 1.5rem;
+  /* Set a smaller fixed height */
+  display: flex;
+  align-items: center;
+  /* Center the text vertically */
+  justify-content: center;
+  /* Center the text horizontally */
+  font-size: 0.75rem;
+  /* Decrease font size */
+}
