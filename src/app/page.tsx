@@ -1,5 +1,6 @@
 import React from "react";
 import { TaskManager } from "@/components/TaskManager";
+import { Chat } from "@/components/Chat";
 
 function App() {
   const today = new Date();
@@ -21,6 +22,8 @@ function App() {
           <TaskManager date={date} month={month} />
         </div>
       </div>
+
+      <Chat />
     </div>
   );
 }
