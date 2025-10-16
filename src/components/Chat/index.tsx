@@ -35,7 +35,7 @@ export const Chat: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const webhookUrl = await getSetting("webhookUrl");
+      const webhookUrl = await getSetting("chatWebhookUrl");
       if (!webhookUrl) {
         setMessages((prev) => [
           ...prev,

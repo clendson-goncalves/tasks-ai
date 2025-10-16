@@ -36,7 +36,7 @@ export interface Task {
           return;
         }
         dedupMap.set(key, now);
-  const urlString = await getSetting("webhookUrl");
+  const urlString = await getSetting("taskWebhookUrl");
   if (!urlString) return;
 
       let parsed: URL;
