@@ -91,7 +91,7 @@ export const Chat: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-800 rounded-lg shadow-xl flex flex-col">
+    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-800 z-100 rounded-lg shadow-xl flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         <h3 className="text-white font-medium">Chat</h3>
         <button
