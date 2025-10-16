@@ -91,8 +91,8 @@ export const Chat: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-900 rounded-lg shadow-xl flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-800">
+    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-800 rounded-lg shadow-xl flex flex-col">
+      <div className="flex items-center justify-between p-4 border-b border-gray-700">
         <h3 className="text-white font-medium">Chat</h3>
         <button
           onClick={() => setIsOpen(false)}
@@ -109,7 +109,7 @@ export const Chat: React.FC = () => {
         ))}
         {isLoading && (
           <div className="flex justify-start mb-4">
-            <div className="bg-gray-800 text-white rounded-lg px-4 py-2">
+            <div className="bg-gray-700 text-white rounded-lg px-4 py-2">
               <div className="flex space-x-2">
                 <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" />
                 <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100" />
@@ -121,19 +121,19 @@ export const Chat: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-800">
+      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700">
         <div className="flex space-x-2">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-teal-500"
+            className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none text-sm"
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
             Send
           </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent } from "react";
 
 interface TaskFormProps {
   onAddTask: (title: string) => void;
@@ -29,7 +29,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
         />
         <button
           type="submit"
-          className="ml-2 w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center text-white hover:bg-teal-600 transition-all active:scale-95"
+          className="ml-2 w-7 h-6 bg-teal-500 rounded-full flex items-center justify-center text-white hover:bg-teal-600 transition-all active:scale-95"
         >
           +
         </button>
@@ -38,4 +38,4 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
   );
 };
 
-export default TaskForm; 
+export default TaskForm;
