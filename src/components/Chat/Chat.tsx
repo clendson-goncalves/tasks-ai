@@ -4,6 +4,7 @@ import { MessageCircle, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "./ChatMessage";
 import { getSetting } from "@/utils/supabase";
+import { generateUniqueId } from "@/utils/utils";
 
 interface Message {
   text: string;
@@ -15,6 +16,7 @@ export const Chat: React.FC = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userId] = useState(() => generateUniqueId());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -51,14 +53,19 @@ export const Chat: React.FC = () => {
           event: "chat_message",
           message: userMessage,
           timestamp: new Date().toISOString(),
+          userId: userId,
         }),
       });
 
       if (!response.ok) throw new Error("Webhook request failed");
 
       const data = await response.json();
-      if (typeof data.response === "string") {
-        setMessages((prev) => [...prev, { text: data.response, isBot: true }]);
+      if (
+        Array.isArray(data) &&
+        data[0] &&
+        typeof data[0].output === "string"
+      ) {
+        setMessages((prev) => [...prev, { text: data[0].output, isBot: true }]);
       }
     } catch (err) {
       console.error("Chat webhook error:", err);

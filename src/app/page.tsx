@@ -1,6 +1,6 @@
 import React from "react";
 import { TaskManager } from "@/components/TaskManager";
-import { Chat } from "@/components/Chat";
+import { Chat } from "@/components/Chat/Chat";
 
 function App() {
   const today = new Date();
