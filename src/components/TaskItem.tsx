@@ -44,6 +44,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    setEditNotes(task.notes ?? "");
+  }, [task.notes]);
+
   return (
     <li ref={itemRef} className="py-2">
       <div className="flex items-start justify-between">

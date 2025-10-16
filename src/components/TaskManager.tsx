@@ -31,29 +31,36 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
   const [isWebhookOpen, setIsWebhookOpen] = useState(false);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        const data = await fetchTasks();
-        if (mounted && Array.isArray(data)) {
-          setTasks(
-            data.map((row: any) => ({
-              id: row.id,
-              title: row.title,
-              completed: !!row.completed,
-              notes: row.notes || undefined,
-            }))
-          );
-        }
-      } catch (err) {
-        console.debug("Failed to load tasks from Supabase", err);
+  const loadTasks = async () => {
+    try {
+      const data = await fetchTasks();
+      if (Array.isArray(data)) {
+        setTasks(
+          data.map((row: any) => ({
+            id: row.id,
+            title: row.title,
+            completed: !!row.completed,
+            notes: row.notes || undefined,
+          }))
+        );
       }
+    } catch (err) {
+      console.debug("Failed to load tasks from Supabase", err);
     }
-    load();
-    return () => {
-      mounted = false;
-    };
+  };
+
+  // Initial load
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  // Periodic refresh
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadTasks();
+    }, 1000); // Refresh every 1 second
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleSaveNotes = (id: number, notes: string) => {
