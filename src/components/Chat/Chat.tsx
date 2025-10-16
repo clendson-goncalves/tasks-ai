@@ -103,7 +103,7 @@ export const Chat: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb:hover]:bg-gray-500">
         {messages.map((msg, idx) => (
           <ChatMessage key={idx} message={msg.text} isBot={msg.isBot} />
         ))}
