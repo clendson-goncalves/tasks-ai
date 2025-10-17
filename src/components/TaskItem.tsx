@@ -18,8 +18,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   onSaveNotes,
 }) => {
   const [isConfirming, setIsConfirming] = useState(false);
-  const [isNotesOpen, setIsNotesOpen] = useState(false);
-  const [editNotes, setEditNotes] = useState("");
+  const [isProcessingAI, setIsProcessingAI] = useState(false);
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleDeleteClick = () => {
@@ -33,7 +32,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   const handleClickOutside = (event: MouseEvent) => {
     if (itemRef.current && !itemRef.current.contains(event.target as Node)) {
       setIsConfirming(false);
-      setIsNotesOpen(false);
     }
   };
 
@@ -43,10 +41,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    setEditNotes(task.notes ?? "");
-  }, [task.notes]);
 
   return (
     <li ref={itemRef} className="py-2">
@@ -90,17 +84,24 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setIsNotesOpen(true);
-              setEditNotes(task.notes ?? "");
+              // Call onSaveNotes directly without showing notes form
+              if (typeof onSaveNotes === "function") {
+                setIsProcessingAI(true);
+                onSaveNotes(task.id, "Processing with AI...");
+                setTimeout(() => setIsProcessingAI(false), 1000); // Visual feedback
+              }
             }}
-            className={`text-gray-500 transition-all mr-2 ${
-              isNotesOpen ? "" : "hover:text-teal-500"
-            }`}
+            className={`text-gray-500 transition-all mr-2 hover:text-teal-500`}
             aria-label="Improve with AI"
+            disabled={isProcessingAI}
           >
             <WandSparkles
               size={17}
-              className="text-gray-500 hover:text-teal-400"
+              className={`${
+                isProcessingAI
+                  ? "text-teal-400 animate-pulse"
+                  : "text-gray-500 hover:text-teal-400"
+              }`}
             />
           </button>
 
@@ -109,9 +110,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               e.stopPropagation();
               handleDeleteClick();
             }}
-            className={`text-gray-500 ${isConfirming ? "text-red-500" : ""} ${
-              isNotesOpen ? "" : "hover:text-teal-500"
-            } transition-all`}
+            className={`text-gray-500 ${
+              isConfirming ? "text-red-500" : ""
+            } hover:text-teal-500 transition-all`}
             aria-label="delete"
           >
             {isConfirming ? (
@@ -128,41 +129,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           </button>
         </div>
       </div>
-
-      {isNotesOpen && (
-        <div className="w-full mt-4">
-          <textarea
-            value={editNotes}
-            onChange={(e) => setEditNotes(e.target.value)}
-            rows={4}
-            className="w-full bg-transparent text-white placeholder-gray-500 border border-gray-700 text-sm rounded-md p-2 focus:outline-none"
-            placeholder="Improve this task using AI..."
-          />
-
-          <div className="mt-2 flex justify-end gap-2">
-            <button
-              onClick={() => {
-                setIsNotesOpen(false);
-                setEditNotes(task.notes ?? "");
-              }}
-              className="bg-gray-700 text-white p-1 rounded text-sm w-24 hover:opacity-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={() => {
-                if (typeof onSaveNotes === "function")
-                  onSaveNotes(task.id, editNotes);
-                setIsNotesOpen(false);
-              }}
-              className="bg-teal-500 text-white p-1 rounded text-sm w-24 hover:opacity-50"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
     </li>
   );
 };
