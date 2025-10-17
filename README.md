@@ -10,6 +10,7 @@ Tasks AI is a powerful task management application that allows users to create, 
 
 - Create, edit, complete, and delete tasks
 - Add and edit notes for tasks
+- New tasks appear at the top of the list for better visibility
 - AI-powered task enhancement with one click
 - Filter tasks by status (all, completed, pending)
 - Track completion progress with a visual progress bar
@@ -26,6 +27,8 @@ Tasks AI includes a powerful AI assistant that can enhance your tasks. Click the
 Tasks AI integrates seamlessly with [ self-hosted n8n](https://n8n.otnnek.com/) - a powerful workflow automation tool - to provide enhanced functionality for task management and communication. Two custom workflows have been designed to extend the capabilities of the application:
 
 ### 1. Task Improvement Workflow
+
+<img width="1011" height="341" alt="task" src="https://github.com/user-attachments/assets/e9243080-ba33-42b2-98fa-85d5895334ac" />
 
 This workflow enhances your tasks using artificial intelligence to provide more detailed information, suggestions, and next steps.
 
@@ -44,9 +47,9 @@ This workflow enhances your tasks using artificial intelligence to provide more 
 3. Enhanced task content is sent back to Tasks AI
 4. The task notes are automatically updated with the improvements
 
-![Task Improvement Workflow](/task.png)
-
 ### 2. Multi-platform Chat Workflow
+
+<img width="982" height="415" alt="chat" src="https://github.com/user-attachments/assets/eddd899c-aa6d-41a8-8073-744565ff12ab" />
 
 This workflow enables communication about your tasks across multiple platforms, including the web interface and WhatsApp, using the #todolist hashtag.
 
@@ -163,6 +166,7 @@ src/
 ```typescript
 /**
  * Main container component for task management
+ * Handles task operations and maintains task order with new tasks at the top
  *
  * @component
  * @param {Object} props - Component properties
@@ -263,6 +267,15 @@ src/
  *
  * @function
  * @returns {number} A unique ID based on timestamp and random number
+ */
+
+/**
+ * Adds a new task to the task list
+ * New tasks are added to the top of the list for better visibility
+ *
+ * @function
+ * @param {string} title - The title of the new task
+ * @returns {void}
  */
 
 /**

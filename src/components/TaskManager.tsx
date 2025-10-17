@@ -93,8 +93,8 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
     insertTask(newTask)
       .catch((e) => console.debug("Supabase insert failed", e))
       .finally(() => {
-        // Add new tasks to the bottom of the list to maintain consistent order
-        setTasks((prev) => [...prev, newTask]);
+        // Add new tasks to the top of the list for better visibility
+        setTasks((prev) => [newTask, ...prev]);
         sendWebhookEvent("task_created", newTask);
       });
   };
