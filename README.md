@@ -17,6 +17,58 @@ Tasks AI is a powerful task management application that allows users to create, 
 - Webhook integration for task events
 - Responsive design for all devices
 
+## AI Integration
+
+Tasks AI includes a powerful AI assistant that can enhance your tasks. Click the wand icon to activate AI processing on your tasks.
+
+## n8n Workflows
+
+Tasks AI integrates seamlessly with [ self-hosted n8n](https://n8n.otnnek.com/) - a powerful workflow automation tool - to provide enhanced functionality for task management and communication. Two custom workflows have been designed to extend the capabilities of the application:
+
+### 1. Task Improvement Workflow
+
+This workflow enhances your tasks using artificial intelligence to provide more detailed information, suggestions, and next steps.
+
+**Key Features:**
+
+- Automatically triggers when the wand icon is clicked on a task
+- Analyzes task content and generates detailed improvement suggestions
+- Adds step-by-step action items to complex tasks
+- Enhances task descriptions with relevant context
+- Provides time estimates and priority recommendations
+
+**How it works:**
+
+1. The webhook from Tasks AI sends task data to n8n
+2. The workflow processes the task using AI models
+3. Enhanced task content is sent back to Tasks AI
+4. The task notes are automatically updated with the improvements
+
+![Task Improvement Workflow](/task.png)
+
+### 2. Multi-platform Chat Workflow
+
+This workflow enables communication about your tasks across multiple platforms, including the web interface and WhatsApp, using the #todolist hashtag.
+
+**Key Features:**
+
+- Unified chat interface across web and WhatsApp
+- Two-way synchronization between platforms
+- Task list retrieval using #todolist command
+- Task creation via chat
+- Task status updates from chat messages
+- Rich formatting for task lists in chat responses
+
+**How it works:**
+
+1. Messages from either platform are normalized and processed
+2. Commands like #todolist trigger specific actions
+3. The workflow queries the Tasks AI database
+4. Formatted responses are sent to the appropriate platform
+5. Task changes made via chat are synchronized back to the database
+
+![Multi-platform Chat Workflow](/chat.png)
+
 ## Getting Started
 
 ### Prerequisites
@@ -287,58 +339,6 @@ Example payload:
   "timestamp": "2025-10-17T14:30:00.000Z"
 }
 ```
-
-## AI Integration
-
-Tasks AI includes a powerful AI assistant that can enhance your tasks. Click the wand icon to activate AI processing on your tasks.
-
-## n8n Workflows
-
-Tasks AI integrates seamlessly with [ self-hosted n8n](https://n8n.otnnek.com/) - a powerful workflow automation tool - to provide enhanced functionality for task management and communication. Two custom workflows have been designed to extend the capabilities of the application:
-
-### 1. Task Improvement Workflow
-
-This workflow enhances your tasks using artificial intelligence to provide more detailed information, suggestions, and next steps.
-
-**Key Features:**
-
-- Automatically triggers when the wand icon is clicked on a task
-- Analyzes task content and generates detailed improvement suggestions
-- Adds step-by-step action items to complex tasks
-- Enhances task descriptions with relevant context
-- Provides time estimates and priority recommendations
-
-**How it works:**
-
-1. The webhook from Tasks AI sends task data to n8n
-2. The workflow processes the task using AI models
-3. Enhanced task content is sent back to Tasks AI
-4. The task notes are automatically updated with the improvements
-
-![Task Improvement Workflow](/task.png)
-
-### 2. Multi-platform Chat Workflow
-
-This workflow enables communication about your tasks across multiple platforms, including the web interface and WhatsApp, using the #todolist hashtag.
-
-**Key Features:**
-
-- Unified chat interface across web and WhatsApp
-- Two-way synchronization between platforms
-- Task list retrieval using #todolist command
-- Task creation via chat
-- Task status updates from chat messages
-- Rich formatting for task lists in chat responses
-
-**How it works:**
-
-1. Messages from either platform are normalized and processed
-2. Commands like #todolist trigger specific actions
-3. The workflow queries the Tasks AI database
-4. Formatted responses are sent to the appropriate platform
-5. Task changes made via chat are synchronized back to the database
-
-![Multi-platform Chat Workflow](/chat.png)
 
 ## Acknowledgments
 
