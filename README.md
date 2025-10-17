@@ -2,22 +2,20 @@
 
 A modern task management application with AI capabilities built with Next.js, TypeScript, TailwindCSS, and Supabase.
 
-![Tasks AI Interface](https://example.com/tasks-ai-screenshot.png)
-
 ## Overview
 
 Tasks AI is a powerful task management application that allows users to create, manage, and organize tasks with an elegant user interface. It features AI-powered task enhancement, real-time synchronization with a database, webhook integrations, and a clean, responsive design.
 
 ## Features
 
-- ✅ Create, edit, complete, and delete tasks
-- 📝 Add and edit notes for tasks
-- 🤖 AI-powered task enhancement with one click
-- 🔍 Filter tasks by status (all, completed, pending)
-- 📊 Track completion progress with a visual progress bar
-- 🔄 Real-time synchronization with Supabase backend
-- 🔌 Webhook integration for task events
-- 📱 Responsive design for all devices
+- Create, edit, complete, and delete tasks
+- Add and edit notes for tasks
+- AI-powered task enhancement with one click
+- Filter tasks by status (all, completed, pending)
+- Track completion progress with a visual progress bar
+- Real-time synchronization with Supabase backend
+- Webhook integration for task events
+- Responsive design for all devices
 
 ## Getting Started
 
