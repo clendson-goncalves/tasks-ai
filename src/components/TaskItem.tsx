@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2, NotebookPen, CircleCheck, Circle } from "lucide-react";
+import { Trash2, WandSparkles, CircleCheck, Circle } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { Task } from "../utils/utils";
 
@@ -96,9 +96,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             className={`text-gray-500 transition-all mr-2 ${
               isNotesOpen ? "" : "hover:text-teal-500"
             }`}
-            aria-label="notes"
+            aria-label="Improve with AI"
           >
-            <NotebookPen
+            <WandSparkles
               size={17}
               className="text-gray-500 hover:text-teal-400"
             />
@@ -136,7 +136,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             onChange={(e) => setEditNotes(e.target.value)}
             rows={4}
             className="w-full bg-transparent text-white placeholder-gray-500 border border-gray-700 text-sm rounded-md p-2 focus:outline-none"
-            placeholder="Add notes for this task..."
+            placeholder="Improve this task using AI..."
           />
 
           <div className="mt-2 flex justify-end gap-2">
@@ -158,7 +158,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               }}
               className="bg-teal-500 text-white p-1 rounded text-sm w-24 hover:opacity-50"
             >
-              Save
+              OK
             </button>
           </div>
         </div>
