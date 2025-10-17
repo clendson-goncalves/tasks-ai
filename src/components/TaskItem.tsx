@@ -88,7 +88,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               if (typeof onSaveNotes === "function") {
                 setIsProcessingAI(true);
                 onSaveNotes(task.id, "Processing with AI...");
-                setTimeout(() => setIsProcessingAI(false), 1000); // Visual feedback
+                setTimeout(() => setIsProcessingAI(false), 4000); // Visual feedback
               }
             }}
             className={`text-gray-500 transition-all mr-2 hover:text-teal-500`}

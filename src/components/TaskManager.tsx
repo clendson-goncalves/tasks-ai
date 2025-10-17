@@ -66,11 +66,12 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   const handleSaveNotes = (id: number, notes: string) => {
     // Get the task's original index to maintain order
     const taskIndex = tasks.findIndex((t) => t.id === id);
+    const task = tasks.find((t) => t.id === id);
 
     updateTask(id, { notes })
       .catch((e) => console.debug("Supabase update notes failed", e))
       .finally(() => {
-        // Update while preserving original array order
+        // Always preserve the original position regardless of whether it's a new note or not
         setTasks((prev) => {
           const newTasks = [...prev];
           if (taskIndex !== -1) {
@@ -79,7 +80,6 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
           return newTasks;
         });
 
-        const task = tasks.find((t) => t.id === id);
         if (task) sendWebhookEvent("task_notes_updated", { ...task, notes });
       });
   };
@@ -93,6 +93,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
     insertTask(newTask)
       .catch((e) => console.debug("Supabase insert failed", e))
       .finally(() => {
+        // Add new tasks to the bottom of the list to maintain consistent order
         setTasks((prev) => [...prev, newTask]);
         sendWebhookEvent("task_created", newTask);
       });

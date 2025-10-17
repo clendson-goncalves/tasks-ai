@@ -35,7 +35,7 @@ export async function fetchTasks(): Promise<SupabaseTask[]> {
   const supa = getSupabase();
   if (!supa) return [];
   try {
-    // Order by ID to maintain consistent order
+    // Get tasks in a consistent order - using ascending order to maintain stable positions
     const { data, error } = await supa.from("tasks").select("*").order("id", { ascending: true });
     if (error) throw error;
     return (data as any) ?? [];
