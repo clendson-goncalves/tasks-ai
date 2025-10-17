@@ -64,12 +64,21 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   }, []);
 
   const handleSaveNotes = (id: number, notes: string) => {
+    // Get the task's original index to maintain order
+    const taskIndex = tasks.findIndex((t) => t.id === id);
+
     updateTask(id, { notes })
       .catch((e) => console.debug("Supabase update notes failed", e))
       .finally(() => {
-        setTasks((prev) =>
-          prev.map((t) => (t.id === id ? { ...t, notes } : t))
-        );
+        // Update while preserving original array order
+        setTasks((prev) => {
+          const newTasks = [...prev];
+          if (taskIndex !== -1) {
+            newTasks[taskIndex] = { ...newTasks[taskIndex], notes };
+          }
+          return newTasks;
+        });
+
         const task = tasks.find((t) => t.id === id);
         if (task) sendWebhookEvent("task_notes_updated", { ...task, notes });
       });
@@ -100,15 +109,34 @@ export const TaskManager: React.FC<TaskManagerProps> = ({ date, month }) => {
   };
 
   const handleToggleTask = (id: number) => {
-    const updated = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    const toggled = updated.find((x) => x.id === id);
-    updateTask(id, { completed: toggled?.completed })
+    // Get the task's original index to maintain order
+    const taskIndex = tasks.findIndex((t) => t.id === id);
+    const task = taskIndex !== -1 ? tasks[taskIndex] : undefined;
+
+    if (!task) return; // Task not found
+
+    const newCompletedState = !task.completed;
+
+    updateTask(id, { completed: newCompletedState })
       .catch((e) => console.debug("Supabase update failed", e))
       .finally(() => {
-        setTasks(updated);
-        if (toggled) sendWebhookEvent("task_updated", toggled);
+        // Update while preserving original array order
+        setTasks((prev) => {
+          const newTasks = [...prev];
+          if (taskIndex !== -1) {
+            newTasks[taskIndex] = {
+              ...newTasks[taskIndex],
+              completed: newCompletedState,
+            };
+          }
+          return newTasks;
+        });
+
+        if (task)
+          sendWebhookEvent("task_updated", {
+            ...task,
+            completed: newCompletedState,
+          });
       });
   };
 

@@ -35,7 +35,8 @@ export async function fetchTasks(): Promise<SupabaseTask[]> {
   const supa = getSupabase();
   if (!supa) return [];
   try {
-    const { data, error } = await supa.from("tasks").select("*");
+    // Order by ID to maintain consistent order
+    const { data, error } = await supa.from("tasks").select("*").order("id", { ascending: true });
     if (error) throw error;
     return (data as any) ?? [];
   } catch (err) {
@@ -92,7 +93,9 @@ export async function updateTask(id: number, patch: Partial<SupabaseTask>) {
     return;
   }
   try {
-    const { error } = await supa.from("tasks").update(patch).eq("id", id);
+    // Ensure we don't update the id field which could affect order
+    const { id: _, ...patchWithoutId } = patch;
+    const { error } = await supa.from("tasks").update(patchWithoutId).eq("id", id);
     if (error) throw error;
   } catch (err) {
     console.debug("Supabase update error", err);
