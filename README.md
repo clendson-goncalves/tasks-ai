@@ -1,5 +1,7 @@
 # Tasks AI
 
+<img width="950" height="725" alt="interface" src="https://github.com/user-attachments/assets/46dda546-d55c-4c93-8490-481404216fce" />
+
 A modern task management application with AI capabilities built with Next.js, TypeScript, TailwindCSS, and Supabase.
 
 ## Overview
@@ -69,8 +71,6 @@ This workflow enables communication about your tasks across multiple platforms, 
 3. The workflow queries the Tasks AI database
 4. Formatted responses are sent to the appropriate platform
 5. Task changes made via chat are synchronized back to the database
-
-![Multi-platform Chat Workflow](/chat.png)
 
 ## Getting Started
 
