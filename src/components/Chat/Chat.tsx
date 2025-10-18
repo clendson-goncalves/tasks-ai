@@ -82,7 +82,7 @@ export const Chat: React.FC = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 p-3 bg-teal-500 text-white rounded-full shadow-lg hover:bg-teal-600 transition-colors"
+        className="fixed bottom-6 z-700 right-6 p-3 bg-teal-500 text-white rounded-full shadow-lg hover:bg-teal-600 transition-colors"
         aria-label="Open chat"
       >
         <MessageCircle size={24} />
@@ -91,7 +91,7 @@ export const Chat: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-800 z-100 rounded-lg shadow-xl flex flex-col">
+    <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-800 z-900 rounded-lg shadow-xl flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         <h3 className="text-white font-medium">Chat</h3>
         <button
